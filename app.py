@@ -99,6 +99,7 @@ def pipeline():
 
     except Exception as e:
         print("Error", e)
+        print("done")
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
