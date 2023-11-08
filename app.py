@@ -102,4 +102,4 @@ def pipeline():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0',port=5004, debug=True)
+    app.run(host='0.0.0.0',port=5008, debug=True)
