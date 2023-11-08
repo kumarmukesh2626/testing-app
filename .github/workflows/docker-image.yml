@@ -10,7 +10,7 @@ jobs:
 
   build:
 
-    runs-on: ubuntu-latest  # You can specify a specific Ubuntu version here
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
@@ -21,8 +21,9 @@ jobs:
 
     - name: Build and Push Docker Image
       run: |
-        docker build . --file Dockerfile --tag genai_app_actions:$(date +%s)
+        # Build the Docker image with a static tag (e.g., "latest")
+        docker build . --file Dockerfile --tag genai_app_actions:latest
 
         # Run the Docker container locally
-        docker run -d -p 3000:3000 genai_app_actions:$(date +%s)
+        docker run -d -p 5008:5008 genai_app_actions:latest
       continue-on-error: true
