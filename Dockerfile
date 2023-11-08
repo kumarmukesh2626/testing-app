@@ -26,7 +26,7 @@ RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Expose port 5003 for Flask
-EXPOSE 5004
+EXPOSE 5008
 
 # Set the command to run the Flask app
 CMD ["python", "app.py"]
