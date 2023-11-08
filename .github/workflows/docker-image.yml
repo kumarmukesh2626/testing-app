@@ -13,11 +13,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: 
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Build and Push Docker Image
+      run: |
         docker build . --file Dockerfile --tag genai_app_acitions:$(date +%s)
 
         # Run the Docker container locally
-        docker run -d -p 3000:3000 my-image-name:$(date +%s)
-        continue-on-error: true
+        docker run -d -p 3000:3000 genai_app_acitions:$(date +%s)
+      continue-on-error: true
