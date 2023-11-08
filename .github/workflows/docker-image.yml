@@ -15,4 +15,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      run: 
+        docker build . --file Dockerfile --tag genai_app_acitions:$(date +%s)
+
+        # Run the Docker container locally
+        docker run -d -p 3000:3000 my-image-name:$(date +%s)
+        continue-on-error: true
