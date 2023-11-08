@@ -1,0 +1,40 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Clear package cache
+      run: pip cache purge
+
+    - name: Build Docker Image
+      run: |
+        docker build . --file Dockerfile --tag genai_app_actions:$(date +%s)
+      continue-on-error: true
+
+    - name: Deploy to GCP VM
+      uses: appleboy/ssh-action@v1
+      with:
+        host: ${{ secrets.GCP_VM_IP }} # Replace with your GCP VM IP
+        username: ${{ secrets.GCP_VM_USERNAME }} # Replace with your VM username
+        key: ${{ secrets.GCP_SSH_KEY }}
+        port: 22 # SSH port
+        script: |
+          # Stop and remove any existing Docker container
+          docker stop my-app || true
+          docker rm my-app || true
+
+          # Run the Docker container on the GCP VM
+          docker run -d -p 3000:3000 --name my-app genai_app_actions:$(date +%s)
