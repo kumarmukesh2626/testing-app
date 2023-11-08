@@ -16,10 +16,13 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Clear package cache
+      run: pip cache purge
+
     - name: Build and Push Docker Image
       run: |
-        docker build . --file Dockerfile --tag genai_app_acitions:$(date +%s)
+        docker build . --file Dockerfile --tag genai_app_actions:$(date +%s)
 
         # Run the Docker container locally
-        docker run -d -p 3000:3000 genai_app_acitions:$(date +%s)
+        docker run -d -p 3000:3000 genai_app_actions:$(date +%s)
       continue-on-error: true
