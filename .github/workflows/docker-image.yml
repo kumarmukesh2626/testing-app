@@ -2,28 +2,22 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Clear package cache
-      run: pip cache purge
+    - name: Build Docker image
+      run: docker build -t genai_app_actions .
 
-    - name: Build and Push Docker Image
-      run: |
-        # Build the Docker image with a static tag (e.g., "latest")
-        docker build . --file Dockerfile --tag genai_app_actions:latest
-
-        # Run the Docker container locally
-        docker run -d -p 5008:5008 genai_app_actions:latest
-      continue-on-error: true
+    - name: Run Docker container
+      run: docker run --restart always -p 5008:5008 -d genai_app_actions
